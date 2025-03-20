@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Ultraceuticals AI Landscape</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 10px;
+      background-color: #121212;
+      color: #e0e0e0;
+      overflow-y: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffffff;
+      margin-bottom: 15px;
+      font-weight: 200;
+      letter-spacing: 1px;
+      font-size: 1.5em;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .column {
+      width: 30%;
+      padding: 8px;
+      background-color: #1e1e1e;
+      border-radius: 6px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      border: 1px solid #333;
+    }
+
+    .column h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #ffffff;
+      font-weight: 400;
+      border-bottom: 1px solid #333;
+      padding-bottom: 6px;
+      font-size: 1em;
+    }
+
+    .cell {
+      padding: 2px 4px;
+      margin: 3px 0;
+      border-radius: 3px;
+      background-color: #2a2a2a;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-left: 2px solid transparent;
+      font-size: 0.8em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cell:hover {
+      background-color: #3a3a3a;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    #tech-column .cell {
+      border-left-color: #ff6b6b;
+    }
+
+    #usecase-column .cell {
+      border-left-color: #4ecdc4;
+    }
+
+    #dataset-column .cell {
+      border-left-color: #ffd166;
+    }
+
+    .cell.highlighted {
+      background-color: #3a3a3a;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    #tech-column .cell.highlighted {
+      background-color: rgba(255, 107, 107, 0.3);
+    }
+
+    #usecase-column .cell.highlighted {
+      background-color: rgba(78, 205, 196, 0.3);
+    }
+
+    #dataset-column .cell.highlighted {
+      background-color: rgba(255, 209, 102, 0.3);
+    }
+
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* Subgroup styles */
+    .subgroup {
+      margin: 8px 0;
+      padding: 4px;
+      border-radius: 4px;
+    }
+
+    .subgroup-title {
+      font-size: 0.75em;
+      font-weight: 600;
+      margin-bottom: 4px;
+      padding-bottom: 2px;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    /* Subgroup color classes */
+    .ai-tech {
+      background-color: rgba(255, 107, 107, 0.15);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .data-storage {
+      background-color: rgba(78, 205, 196, 0.15);
+      border: 1px solid rgba(78, 205, 196, 0.3);
+    }
+
+    .automation {
+      background-color: rgba(255, 209, 102, 0.15);
+      border: 1px solid rgba(255, 209, 102, 0.3);
+    }
+
+    .ecommerce-platform {
+      background-color: rgba(58, 134, 255, 0.15);
+      border: 1px solid rgba(58, 134, 255, 0.3);
+    }
+
+    .cloud-infra {
+      background-color: rgba(114, 9, 183, 0.15);
+      border: 1px solid rgba(114, 9, 183, 0.3);
+    }
+
+    .inventory-management {
+      background-color: rgba(6, 214, 160, 0.15);
+      border: 1px solid rgba(6, 214, 160, 0.3);
+    }
+
+    .marketing-content {
+      background-color: rgba(247, 37, 133, 0.15);
+      border: 1px solid rgba(247, 37, 133, 0.3);
+    }
+
+    .sales-revenue {
+      background-color: rgba(138, 201, 38, 0.15);
+      border: 1px solid rgba(138, 201, 38, 0.3);
+    }
+
+    .customer-experience {
+      background-color: rgba(255, 107, 107, 0.15);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .operations {
+      background-color: rgba(58, 134, 255, 0.15);
+      border: 1px solid rgba(58, 134, 255, 0.3);
+    }
+
+    .b2b-automation {
+      background-color: rgba(114, 9, 183, 0.15);
+      border: 1px solid rgba(114, 9, 183, 0.3);
+    }
+
+    .inventory-logistics {
+      background-color: rgba(6, 214, 160, 0.15);
+      border: 1px solid rgba(6, 214, 160, 0.3);
+    }
+
+    .historical-data {
+      background-color: rgba(247, 37, 133, 0.15);
+      border: 1px solid rgba(247, 37, 133, 0.3);
+    }
+
+    .customer-data {
+      background-color: rgba(138, 201, 38, 0.15);
+      border: 1px solid rgba(138, 201, 38, 0.3);
+    }
+
+    .marketing-data {
+      background-color: rgba(255, 107, 107, 0.15);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+    }
+
+    .product-inventory {
+      background-color: rgba(58, 134, 255, 0.15);
+      border: 1px solid rgba(58, 134, 255, 0.3);
+    }
+
+    .transactional-data {
+      background-color: rgba(114, 9, 183, 0.15);
+      border: 1px solid rgba(114, 9, 183, 0.3);
+    }
+
+    /* Tooltip for long text */
+    .cell:hover::after {
+      content: attr(data-value);
+      position: absolute;
+      background: #333;
+      color: #fff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      z-index: 1;
+      font-size: 0.75em;
+      max-width: 200px;
+      word-wrap: break-word;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Ultraceuticals AI Landscape</h1>
+
+  <div class="container">
+    <canvas id="canvas"></canvas>
+    <div class="column" id="tech-column">
+      <h2>Technology</h2>
+      <!-- Subgroups will be added here dynamically -->
+    </div>
+
+    <div class="column" id="usecase-column">
+      <h2>Usecase</h2>
+      <!-- Subgroups will be added here dynamically -->
+    </div>
+
+    <div class="column" id="dataset-column">
+      <h2>Dataset</h2>
+      <!-- Subgroups will be added here dynamically -->
+    </div>
+  </div>
+
+  <script>
+    // Sample data
+    const data = [
+      // AI-Enabled Content Creation 
+      ["Generative AI", "AI-Enabled Content Creation", "Customer Interests"],
+      ["CMS", "AI-Enabled Content Creation", "Past Content Engagement"],
+      ["Automation", "AI-Enabled Content Creation", "Past Content Engagement"],
+
+      // Product Recommendation Model 
+      ["Recommendation Engine", "Personalized Product Recommendation", "User Behavior"],
+      ["APIs", "Personalized Product Recommendation", "Purchase History"],
+
+      // AI Chatbot & Online Experience
+      ["AI Chatbots", "Personalized Advice & Consultation", "Customer Preferences"],
+      ["NLP", "Personalized Advice & Consultation", "Customer Preferences"],
+      ["AI Chatbots", "Enable ChatBot to facilitate online experience", "Customer Journey"],
+      ["NLP", "Enable ChatBot to facilitate online experience", "Multi-Channel Customer Interactions"],
+      ["AI Chatbots", "On-Website Chatbot", "Customer Queries"],
+      ["AI Chatbots", "Assess Zoom ChatBot Fit", "Customer Service Logs"],
+      ["RAG Model", "Curate product knowledge and customer knowledge for AI chatbot", "Product Catalog"],
+
+      // Integrated Data Layer-- >
+      ["CDP", "Integrated data layer with all customer application data", "Customer Interactions"],
+      ["Data Warehousing", "Integrated data layer with all customer application data", "Purchase History"],
+      ["BI Tools", "Integrated data layer with all customer application data", "Sales Trends"],
+      ["APIs", "Integrated data layer with all customer application data", "Shopify, Klaviyo, Triple Whale, GA4 Data"],
+
+      // Cloud Compute & AI Models-- >
+      ["AWS AI Platform", "Cloud compute platform for AI workloads", "Historical Sales Data"],
+      ["Azure AI Platform", "Cloud compute platform for AI workloads", "Inventory Levels"],
+
+      // Forecasting Models-- >
+      ["AI/ML Models", "Forecasting sales model", "Historical Sales Data"],
+      ["AI/ML Models", "Propensity to buy model", "User Behavior"],
+      ["AI/ML Models", "Up-sell / Cross-sell propensity model", "Purchase History"],
+      ["AI/ML Models", "Product Consumption Prediction Model", "Customer Preferences"],
+
+      //  Inventory Planning & Automation-- >
+      ["Netstock", "Store current inventory levels", "Inventory Levels"],
+      ["Shopify Integration", "Access inventory levels & sync with Netstock", "Inventory Levels"],
+      ["APIs", "Auto-check inventory levels", "Supply Chain Data"],
+      ["Fraud Detection System", "Auto-check fraud in orders", "Order History"],
+      ["Automation", "Automate order fulfillment", "Payment Confirmation"],
+      ["Website CMS", "Display inventory levels on website", "Product Catalog"],
+
+      // Trigger Events & Orchestration-- >
+      ["Cloud Platform", "Trigger events based on customer behavior", "Customer Journey"],
+      ["Orchestration & Automation Layer", "Automate customer journey", "Multi-Channel Customer Interactions"],
+      ["LLM Layer", "Writing personalized content for marketing", "Past Content Engagement"],
+
+      // B2B Process Automation-- >
+      ["OCR & NLP Models", "Extract relevant fields from invoices", "Invoice Documents"],
+      ["RPA", "Auto-fill forms from extracted invoice data", "B2B Order Data"],
+      ["Document Parsing APIs", "Check what kind of forms are needed", "B2B Transaction Logs"]
+    ];
+
+    // Subgroup definitions
+    const subgroups = {
+      tech: {
+        "AI Technologies": {
+          items: ["Generative AI", "AI Chatbots", "NLP", "RAG Model", "AI/ML Models", "LLM Layer"],
+          class: "ai-tech"
+        },
+        "Data Storage & Processing": {
+          items: ["CDP", "Data Warehousing", "BI Tools", "OCR & NLP Models", "Document Parsing APIs"],
+          class: "data-storage"
+        },
+        "Automation & Orchestration": {
+          items: ["Automation", "RPA", "Orchestration & Automation Layer"],
+          class: "automation"
+        },
+        "E-commerce & Customer Platforms": {
+          items: ["Shopify Integration", "Headless CMS", "CRM", "Marketing Automation", "CMS", "Website CMS"],
+          class: "ecommerce-platform"
+        },
+        "Cloud & Infrastructure": {
+          items: ["AWS AI Platform", "Azure AI Platform", "Cloud Platform"],
+          class: "cloud-infra"
+        },
+        "Inventory & Order Management": {
+          items: ["Netstock", "Fraud Detection System", "PIM", "ERP", "IoT"],
+          class: "inventory-management"
+        },
+        "Other Technologies": {
+          items: ["Recommendation Engine", "APIs"],
+          class: "other-tech"
+        }
+      },
+
+      usecase: {
+        "Marketing & Content": {
+          items: [
+            "AI-Enabled Content Creation",
+            "Writing personalized content for marketing",
+            "Curate product knowledge and customer knowledge for AI chatbot"
+          ],
+          class: "marketing-content"
+        },
+        "Sales & Revenue Optimization": {
+          items: [
+            "Forecasting sales model",
+            "Propensity to buy model",
+            "Up-sell / Cross-sell propensity model",
+            "Personalized Product Recommendation"
+          ],
+          class: "sales-revenue"
+        },
+        "Customer Experience & Engagement": {
+          items: [
+            "Personalized Advice & Consultation",
+            "Enable ChatBot to facilitate online experience",
+            "On-Website Chatbot",
+            "Assess Zoom ChatBot Fit"
+          ],
+          class: "customer-experience"
+        },
+        "Operational Efficiency": {
+          items: [
+            "Integrated data layer with all customer application data",
+            "Cloud compute platform for AI workloads",
+            "Trigger events based on customer behavior",
+            "Automate order fulfillment",
+            "Automate customer journey"
+          ],
+          class: "operations"
+        },
+        "B2B Process Automation": {
+          items: [
+            "Extract relevant fields from invoices",
+            "Auto-fill forms from extracted invoice data",
+            "Check what kind of forms are needed"
+          ],
+          class: "b2b-automation"
+        },
+        "Inventory & Logistics": {
+          items: [
+            "Store current inventory levels",
+            "Access inventory levels & sync with Netstock",
+            "Auto-check inventory levels",
+            "Auto-check fraud in orders",
+            "Display inventory levels on website"
+          ],
+          class: "inventory-logistics"
+        }
+      },
+
+      dataset: {
+        "Historical Data": {
+          items: ["Historical Sales Data", "Purchase History", "Order History"],
+          class: "historical-data"
+        },
+        "Customer & Behavioral Data": {
+          items: [
+            "Customer Interests",
+            "Past Content Engagement",
+            "User Behavior",
+            "Customer Preferences",
+            "Multi-Channel Customer Interactions",
+            "Customer Journey",
+            "Customer Queries",
+            "Customer Service Logs",
+            "Customer Interactions"
+          ],
+          class: "customer-data"
+        },
+        "Marketing & Engagement Data": {
+          items: [
+            "Campaign Engagement",
+            "Click-Through Rates",
+            "Website Visits",
+            "Ad Engagement",
+            "Shopify, Klaviyo, Triple Whale, GA4 Data"
+          ],
+          class: "marketing-data"
+        },
+        "Product & Inventory Data": {
+          items: [
+            "Product Catalog",
+            "Inventory Levels",
+            "Supply Chain Data",
+            "Sales Trends"
+          ],
+          class: "product-inventory"
+        },
+        "Operational & Transactional Data": {
+          items: [
+            "Payment Confirmation",
+            "B2B Order Data",
+            "Invoice Documents",
+            "B2B Transaction Logs"
+          ],
+          class: "transactional-data"
+        }
+      }
+    };
+
+    // Store connections between cells
+    const connections = [];
+
+    // Store cell elements by their content
+    const cellMap = {
+      tech: {},
+      usecase: {},
+      dataset: {}
+    };
+
+    // Color palette for connections
+    const colors = [
+      '#ff6b6b', // Red
+      '#4ecdc4', // Teal
+      '#ffd166', // Yellow
+      '#06d6a0', // Green
+      '#118ab2', // Blue
+      '#7209b7', // Purple
+      '#f72585', // Pink
+      '#3a86ff', // Royal Blue
+      '#8ac926', // Lime
+      '#ffbe0b'  // Orange
+    ];
+
+    // Calculate the height needed for the entire visualization
+    function calculateTotalHeight() {
+      // Get all cells and compute total height
+      let maxHeight = 0;
+      document.querySelectorAll('.column').forEach(column => {
+        maxHeight = Math.max(maxHeight, column.scrollHeight);
+      });
+
+      // Set container height to accommodate all elements
+      document.querySelector('.container').style.height = (maxHeight + 20) + 'px';
+
+      // Resize canvas
+      resizeCanvas();
+    }
+
+    // Initialize the visualization
+    function init() {
+      populateColumnsWithSubgroups();
+      setupEventListeners();
+      calculateTotalHeight();
+      drawConnections();
+
+      // Initialize canvas size
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+    }
+
+    function resizeCanvas() {
+      const canvas = document.getElementById('canvas');
+      const container = document.querySelector('.container');
+      canvas.width = container.offsetWidth;
+      canvas.height = container.offsetHeight;
+      drawConnections();
+    }
+
+    // Populate columns with subgroups
+    function populateColumnsWithSubgroups() {
+      // Get all unique values first
+      const techSet = new Set(data.map(row => row[0]));
+      const usecaseSet = new Set(data.map(row => row[1]));
+      const datasetSet = new Set(data.map(row => row[2]));
+
+      // Create subgroups in tech column
+      const techColumn = document.getElementById('tech-column');
+      createSubgroups(techColumn, techSet, subgroups.tech, 'tech');
+
+      // Create subgroups in usecase column
+      const usecaseColumn = document.getElementById('usecase-column');
+      createSubgroups(usecaseColumn, usecaseSet, subgroups.usecase, 'usecase');
+
+      // Create subgroups in dataset column
+      const datasetColumn = document.getElementById('dataset-column');
+      createSubgroups(datasetColumn, datasetSet, subgroups.dataset, 'dataset');
+
+      // Create connections based on data
+      data.forEach(row => {
+        connections.push({
+          tech: row[0],
+          usecase: row[1],
+          dataset: row[2]
+        });
+      });
+    }
+
+    // Create subgroups in a column
+    function createSubgroups(column, allItems, subgroupDef, type) {
+      // Create a set of all items for quick lookup
+      const itemSet = new Set(allItems);
+
+      // Track items that have been added to subgroups
+      const addedItems = new Set();
+
+      // First, create all defined subgroups
+      for (const [groupName, groupInfo] of Object.entries(subgroupDef)) {
+        const subgroupDiv = document.createElement('div');
+        subgroupDiv.className = `subgroup ${groupInfo.class}`;
+
+        const titleDiv = document.createElement('div');
+        titleDiv.className = 'subgroup-title';
+        titleDiv.textContent = groupName;
+        subgroupDiv.appendChild(titleDiv);
+
+        // Add cells for this subgroup
+        groupInfo.items.forEach(item => {
+          if (itemSet.has(item)) {
+            addCell(subgroupDiv, item, type);
+            addedItems.add(item);
+          }
+        });
+
+        // Only add the subgroup if it has items
+        if (subgroupDiv.querySelectorAll('.cell').length > 0) {
+          column.appendChild(subgroupDiv);
+        }
+      }
+
+      // Add any items that weren't in defined subgroups
+      if (addedItems.size < itemSet.size) {
+        const otherDiv = document.createElement('div');
+        otherDiv.className = 'subgroup';
+
+        // Only add title if there are actually ungrouped items
+        const remainingItems = Array.from(itemSet).filter(item => !addedItems.has(item));
+        if (remainingItems.length > 0) {
+          const titleDiv = document.createElement('div');
+          titleDiv.className = 'subgroup-title';
+          titleDiv.textContent = 'Other';
+          otherDiv.appendChild(titleDiv);
+
+          remainingItems.forEach(item => {
+            addCell(otherDiv, item, type);
+          });
+
+          column.appendChild(otherDiv);
+        }
+      }
+    }
+
+    // Add a cell to a column or subgroup
+    function addCell(parent, text, type) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.textContent = text.length > 25 ? text.substring(0, 25) + '...' : text;
+      cell.dataset.value = text;
+      cell.dataset.type = type;
+      cell.title = text; // Add title for hover tooltip
+      parent.appendChild(cell);
+
+      // Store reference to cell
+      if (!cellMap[type][text]) {
+        cellMap[type][text] = cell;
+      }
+    }
+
+    // Setup event listeners
+    function setupEventListeners() {
+      // Cell click event
+      document.querySelectorAll('.cell').forEach(cell => {
+        cell.addEventListener('click', e => {
+          const clickedCell = e.target;
+          const value = clickedCell.dataset.value;
+          const type = clickedCell.dataset.type;
+
+          highlightConnections(value, type);
+          e.stopPropagation();
+        });
+      });
+
+      // Reset highlighting when clicking elsewhere
+      document.addEventListener('click', resetHighlighting);
+    }
+
+    // Highlight connected cells
+    function highlightConnections(value, type) {
+      // Reset previous highlighting
+      resetHighlighting();
+
+      // Highlight the clicked cell
+      cellMap[type][value].classList.add('highlighted');
+
+      // Find and highlight connected cells
+      connections.forEach(conn => {
+        if (type === 'tech' && conn.tech === value) {
+          cellMap['usecase'][conn.usecase].classList.add('highlighted');
+          cellMap['dataset'][conn.dataset].classList.add('highlighted');
+        } else if (type === 'usecase' && conn.usecase === value) {
+          cellMap['tech'][conn.tech].classList.add('highlighted');
+          cellMap['dataset'][conn.dataset].classList.add('highlighted');
+        } else if (type === 'dataset' && conn.dataset === value) {
+          cellMap['tech'][conn.tech].classList.add('highlighted');
+          cellMap['usecase'][conn.usecase].classList.add('highlighted');
+        }
+      });
+
+      // Redraw connections with highlighting
+      drawConnections(value, type);
+    }
+
+    // Reset highlighting
+    function resetHighlighting() {
+      document.querySelectorAll('.cell').forEach(cell => {
+        cell.classList.remove('highlighted');
+      });
+
+      drawConnections();
+    }
+
+    // Calculate the position relative to the document
+    function getAbsolutePosition(element) {
+      const rect = element.getBoundingClientRect();
+      return {
+        top: rect.top + window.scrollY,
+        bottom: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        right: rect.right + window.scrollX,
+        width: rect.width,
+        height: rect.height
+      };
+    }
+
+    // Draw connections between cells
+    function drawConnections(highlightValue, highlightType) {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      const containerRect = canvas.getBoundingClientRect();
+      const scrollY = window.scrollY;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      connections.forEach((conn, index) => {
+        const techCell = cellMap['tech'][conn.tech];
+        const usecaseCell = cellMap['usecase'][conn.usecase];
+        const datasetCell = cellMap['dataset'][conn.dataset];
+
+        if (techCell && usecaseCell && datasetCell) {
+          const isHighlighted =
+            (highlightType === 'tech' && conn.tech === highlightValue) ||
+            (highlightType === 'usecase' && conn.usecase === highlightValue) ||
+            (highlightType === 'dataset' && conn.dataset === highlightValue);
+
+          // Get color for this connection
+          const colorIndex = index % colors.length;
+          const color = colors[colorIndex];
+
+          // Get positions for each cell
+          const techRect = getAbsolutePosition(techCell);
+          const usecaseRect = getAbsolutePosition(usecaseCell);
+          const datasetRect = getAbsolutePosition(datasetCell);
+
+          // Adjust for scroll position
+          const techTop = techRect.top - containerRect.top - scrollY + window.scrollY;
+          const usecaseTop = usecaseRect.top - containerRect.top - scrollY + window.scrollY;
+          const datasetTop = datasetRect.top - containerRect.top - scrollY + window.scrollY;
+
+          // Draw tech to usecase connection
+          drawCurvedLine(
+            techRect.right - containerRect.left,
+            techTop + techRect.height / 2,
+            usecaseRect.left - containerRect.left,
+            usecaseTop + usecaseRect.height / 2,
+            canvas,
+            isHighlighted ? color : color + '40', // Add transparency if not highlighted
+            isHighlighted ? 2 : 1,
+            isHighlighted
+          );
+
+          // Draw usecase to dataset connection
+          drawCurvedLine(
+            usecaseRect.right - containerRect.left,
+            usecaseTop + usecaseRect.height / 2,
+            datasetRect.left - containerRect.left,
+            datasetTop + datasetRect.height / 2,
+            canvas,
+            isHighlighted ? color : color + '40', // Add transparency if not highlighted
+            isHighlighted ? 2 : 1,
+            isHighlighted
+          );
+        }
+      });
+    }
+
+    // Draw a curved line between two points
+    function drawCurvedLine(startX, startY, endX, endY, canvas, color, lineWidth, isHighlighted) {
+      const ctx = canvas.getContext('2d');
+
+      // Calculate control point
+      const controlX = (startX + endX) / 2;
+
+      ctx.beginPath();
+      ctx.moveTo(startX, startY);
+      ctx.bezierCurveTo(controlX, startY, controlX, endY, endX, endY);
+
+      // Line style
+      ctx.strokeStyle = color;
+      ctx.lineWidth = lineWidth;
+
+      // Add glow effect for highlighted connections
+      if (isHighlighted) {
+        ctx.shadowColor = color;
+        ctx.shadowBlur = 5;
+      } else {
+        ctx.shadowBlur = 0;
+      }
+
+      ctx.stroke();
+
+      // Reset shadow
+      ctx.shadowBlur = 0;
+    }
+
+    // Update the visualization when scrolling
+    window.addEventListener('scroll', function () {
+      drawConnections();
+    });
+
+    // Initialize visualization when page loads
+    window.onload = init;
+  </script>
+</body>
+
+</html>
